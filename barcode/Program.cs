@@ -8,5 +8,10 @@ namespace barcode
         {
             Console.WriteLine("Hello World!");
         }
+
+        public static bool MyFunction()
+        {
+            return true;
+        }
     }
 }
