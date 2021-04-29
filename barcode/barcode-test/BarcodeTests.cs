@@ -5,7 +5,7 @@ using System;
 namespace barcode_test
 {
     [TestFixture]
-    public class Tests
+    public class BarcodeTests
     {
         [SetUp]
         public void Setup()

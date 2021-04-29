@@ -87,6 +87,11 @@ namespace barcode
             return outputLines;
         }
 
+        /// <summary>
+        /// Converts a UTF-8 encoded bar-and-space string into a string containing 1's and 0's
+        /// </summary>
+        /// <param name="barcode"></param>
+        /// <returns></returns>
         public static string ToBinaryString(string barcode)
         {
             StringBuilder sb = new StringBuilder();
@@ -109,6 +114,11 @@ namespace barcode
             }
         }
 
+        /// <summary>
+        /// Splits a binary string into Left and Right. The center guard is removed.
+        /// </summary>
+        /// <param name="barcode">binary string with start and end guard removed.</param>
+        /// <returns>An array string[2]{left, right}</returns>
         public static string[] SplitOnCenterGuard(string barcode)
         {
             int lengthMinusEndGuards = 7 * 6 * 2 + 5;
@@ -128,6 +138,11 @@ namespace barcode
             return split;
         }
 
+        /// <summary>
+        /// Splits a string into several 7-letter words.
+        /// </summary>
+        /// <param name="barcode"></param>
+        /// <returns></returns>
         public static string[] SplitIntoWords(string barcode)
         {
             if (barcode.Length % 7 != 0)
@@ -143,6 +158,13 @@ namespace barcode
             return words;
         }
 
+        /// <summary>
+        /// Translates binary words into numbers using a left or right dictionary.
+        /// </summary>
+        /// <example>[0001101] => [0], given a left-hand dictionary</example>
+        /// <param name="words"></param>
+        /// <param name="dict"></param>
+        /// <returns></returns>
         public static int[] TranslateWords(string[] words, Dictionary<string, int> dict)
         {
             int[] numbers = new int[words.Length];
