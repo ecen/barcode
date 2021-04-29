@@ -48,7 +48,14 @@ namespace barcode
                 string[] rights = SplitIntoWords(right);
                 int[] leftNrs = translateWords(lefts, LEFT_HAND);
                 int[] rightNrs = translateWords(rights, RIGHT_HAND);
-                Console.WriteLine($"{line}");
+
+                string numberSystem = leftNrs[0].ToString();
+                string leftPart = string.Join("", leftNrs[1..leftNrs.Length]);
+                string rightPart = string.Join("", leftNrs[1..rightNrs.Length]);
+                string moduloCheck = rightNrs[rightNrs.Length].ToString();
+
+                string output = $"{numberSystem} {leftPart} {rightPart} {moduloCheck}";
+                Console.WriteLine($"{line}\n{output}");
             }
         }
 
