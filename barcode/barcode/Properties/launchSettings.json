@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "barcode": {
+      "commandName": "Project",
+      "commandLineArgs": "D:\\file_pyramid\\merits\\job-search\\sectra\\WinDevTaskA\\barcode\\testdata1.txt"
+    }
+  }
+}
