@@ -51,8 +51,8 @@ namespace barcode
 
                 string numberSystem = leftNrs[0].ToString();
                 string leftPart = string.Join("", leftNrs[1..leftNrs.Length]);
-                string rightPart = string.Join("", leftNrs[1..rightNrs.Length]);
-                string moduloCheck = rightNrs[rightNrs.Length].ToString();
+                string rightPart = string.Join("", rightNrs[1..rightNrs.Length]);
+                string moduloCheck = rightNrs[rightNrs.Length-1].ToString();
 
                 string output = $"{numberSystem} {leftPart} {rightPart} {moduloCheck}";
                 Console.WriteLine($"{line}\n{output}");
