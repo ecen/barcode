@@ -56,8 +56,22 @@ namespace barcode_test
         [Test]
         public void SplitOnCenterGuardSucceeds()
         {
-            string barcode = "0000010101111";
-            string[] expected = new string[] { "0000", "1111" };
+            string barcode = "00000001111111000000011111110000000111111101010000000011111110000000111111100000001111111";
+            string[] expected = new string[] {
+                "000000011111110000000111111100000001111111",
+                "000000011111110000000111111100000001111111"
+            };
+            Assert.AreEqual(BarcodeProgram.SplitOnCenterGuard(barcode), expected);
+        }
+
+        [Test]
+        public void SplitOnCenterGuardSucceedsOnTrickyGuardPattern()
+        {
+            string barcode = "00000001111111000000011111110000000111110101010100000011111110000000111111100000001111111";
+            string[] expected = new string[] {
+                "000000011111110000000111111100000001111101",
+                "100000011111110000000111111100000001111111"
+            };
             Assert.AreEqual(BarcodeProgram.SplitOnCenterGuard(barcode), expected);
         }
 

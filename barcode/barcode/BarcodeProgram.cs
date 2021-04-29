@@ -94,15 +94,21 @@ namespace barcode
 
         public static string[] SplitOnCenterGuard(string barcode)
         {
-            if (barcode.Contains("01010"))
+            int lengthMinusEndGuards = 7 * 6 * 2 + 5;
+            if (!barcode.Contains("01010")) 
             {
-                string[] split = barcode.Split("01010");
-                return split;
+                throw new FormatException("Barcode does not contain center guard.");
             }
-            else
+            if (barcode.Length != lengthMinusEndGuards)
             {
-                throw new FormatException("Barcode does not contain center guard pattern.");
+                throw new FormatException($"Barcode was {barcode.Length} characters but should be {lengthMinusEndGuards}.");
             }
+            
+            string[] split = new string[2] { 
+                barcode.Substring(0, 7 * 6), // Left side
+                barcode.Substring(7 * 6 + 5, 7 * 6) // Right side
+            };
+            return split;
         }
 
         public static string[] SplitIntoWords(string barcode)
