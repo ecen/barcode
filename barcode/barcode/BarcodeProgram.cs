@@ -37,15 +37,43 @@ namespace barcode
             return sb.ToString();
         }
 
-        public static string StripGuardPattern(string barcode)
+        public static string StripEndGuards(string barcode)
         {
             if (barcode.StartsWith("101") && barcode.EndsWith("101"))
             {
                 return barcode.Substring(3, barcode.Length - 6);
             } else
             {
-                throw new FormatException("Barcode does not contain guard pattern.");
+                throw new FormatException("Barcode does not contain end guard patterns.");
             }
+        }
+
+        public static string[] SplitOnCenterGuard(string barcode)
+        {
+            if (barcode.Contains("01010"))
+            {
+                string[] split = barcode.Split("01010");
+                return split;
+            }
+            else
+            {
+                throw new FormatException("Barcode does not contain center guard pattern.");
+            }
+        }
+
+        public static string[] SplitIntoWords(string barcode)
+        {
+            if (barcode.Length % 7 != 0)
+            {
+                throw new FormatException("Barcode does not contain full words.");
+            }
+
+            string[] words = new string[barcode.Length / 7];
+            for (int i = 0;  i < words.Length; i++)
+            {
+                words[i] = barcode.Substring(i * 7, 7);
+            }
+            return words;
         }
     }
 }

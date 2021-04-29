@@ -37,19 +37,44 @@ namespace barcode_test
         }
 
         [Test]
-        public void StripGuardPatternSucceeds()
+        public void StripEndGuardsSucceeds()
         {
             string barcode = "1010101101";
             string expected = "0101";
-            Assert.AreEqual(BarcodeProgram.StripGuardPattern(barcode), expected);
+            Assert.AreEqual(BarcodeProgram.StripEndGuards(barcode), expected);
         }
 
         [Test]
-        public void StripGuardPatternFails()
+        public void StripEndGuardsFails()
         {
             string barcode = "101010110";
             Assert.That(
-                () => BarcodeProgram.StripGuardPattern(barcode), 
+                () => BarcodeProgram.StripEndGuards(barcode), 
+                Throws.Exception.TypeOf<FormatException>());
+        }
+
+        [Test]
+        public void SplitOnCenterGuardSucceeds()
+        {
+            string barcode = "0000010101111";
+            string[] expected = new string[] { "0000", "1111" };
+            Assert.AreEqual(BarcodeProgram.SplitOnCenterGuard(barcode), expected);
+        }
+
+        [Test]
+        public void SplitOnWordsSuceeds()
+        {
+            string barcode = "000000011111110001111";
+            string[] expected = new string[] { "0000000", "1111111", "0001111" };
+            Assert.AreEqual(BarcodeProgram.SplitIntoWords(barcode), expected);
+        }
+
+        [Test]
+        public void SplitOnWordsThrowsOnBadLength()
+        {
+            string barcode = "101000000011111110001111101";
+            Assert.That(
+                () => BarcodeProgram.SplitIntoWords(barcode),
                 Throws.Exception.TypeOf<FormatException>());
         }
     }
