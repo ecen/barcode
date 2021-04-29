@@ -107,9 +107,9 @@ namespace barcode_test
         public void BinaryLineToFormattedStringSuceeds()
         {
             string testdata1 = "10100011010110001001100100011010001101000110101010111001011001101101100100111011001101000100101";
-            string expected = "0 51000 01251 7";
+            string expected1 = "0 51000 01251 7";
 
-            Assert.AreEqual(expected, BarcodeProgram.BinaryLineToFormattedString(testdata1));
+            Assert.AreEqual(expected1, BarcodeProgram.BinaryLineToFormattedString(testdata1));
         }
     }
 }

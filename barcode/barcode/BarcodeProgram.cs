@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace barcode
@@ -37,11 +38,22 @@ namespace barcode
 
         static void Main(string[] args)
         {
-            string[] lines = FileToBinaryLines(args[0]);
-            foreach (string line in lines)
+            try
             {
-                string output = BinaryLineToFormattedString(line);
-                Console.WriteLine($"{line}\n{output}");
+                string[] lines = FileToBinaryLines(args[0]);
+                foreach (string line in lines)
+                {
+                    string output = BinaryLineToFormattedString(line);
+                    Console.WriteLine(output);
+                }
+            } 
+            catch (IndexOutOfRangeException e)
+            {
+                Console.Error.WriteLine("Error. You did not enter a file path as the first argument.");
+            } 
+            catch (FileNotFoundException e)
+            {
+                Console.Error.WriteLine("Error. The file could not be found.");
             }
         }
 
