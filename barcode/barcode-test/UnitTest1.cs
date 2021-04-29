@@ -77,5 +77,16 @@ namespace barcode_test
                 () => BarcodeProgram.SplitIntoWords(barcode),
                 Throws.Exception.TypeOf<FormatException>());
         }
+
+        [Test]
+        public void TranslationSucceeds()
+        {
+            string[] leftWords = new string[] { "0001101", "0111101", "0001011" };
+            string[] rightWords = new string[] { "1110010", "1000010", "1110100" };
+            int[] nrs = new int[] { 0, 3, 9 };
+
+            Assert.AreEqual(BarcodeProgram.translateWords(leftWords, BarcodeProgram.LEFT_HAND), nrs);
+            Assert.AreEqual(BarcodeProgram.translateWords(rightWords, BarcodeProgram.RIGHT_HAND), nrs);
+        }
     }
 }

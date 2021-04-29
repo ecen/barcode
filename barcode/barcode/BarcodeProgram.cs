@@ -6,11 +6,48 @@ namespace barcode
 {
     public class BarcodeProgram
     {
+        public static Dictionary<string, int> LEFT_HAND = new Dictionary<string, int>
+        {
+            { "0001101", 0 },
+            { "0011001", 1 },
+            { "0010011", 2 },
+            { "0111101", 3 },
+            { "0100011", 4 },
+            { "0110001", 5 },
+            { "0101111", 6 },
+            { "0111011", 7 },
+            { "0110111", 8 },
+            { "0001011", 9 },
+        };
+
+        // Just the left hand dictionary but each bit is inverted.
+        public static Dictionary<string, int> RIGHT_HAND = new Dictionary<string, int>
+        {
+            { "1110010", 0 },
+            { "1100110", 1 },
+            { "1101100", 2 },
+            { "1000010", 3 },
+            { "1011100", 4 },
+            { "1001110", 5 },
+            { "1010000", 6 },
+            { "1000100", 7 },
+            { "1001000", 8 },
+            { "1110100", 9 },
+        };
+
         static void Main(string[] args)
         {
             string[] lines = FileToBinaryLines(args[0]);
             foreach (string line in lines)
             {
+                string noEndGuards = StripEndGuards(line);
+                string[] both = SplitOnCenterGuard(noEndGuards);
+                string left = both[0];
+                string right = both[1];
+                string[] lefts = SplitIntoWords(left);
+                string[] rights = SplitIntoWords(right);
+                int[] leftNrs = translateWords(lefts, LEFT_HAND);
+                int[] rightNrs = translateWords(rights, RIGHT_HAND);
                 Console.WriteLine($"{line}");
             }
         }
@@ -74,6 +111,16 @@ namespace barcode
                 words[i] = barcode.Substring(i * 7, 7);
             }
             return words;
+        }
+
+        public static int[] translateWords(string[] words, Dictionary<string, int> dict)
+        {
+            int[] numbers = new int[words.Length];
+            for (int i = 0; i < words.Length; i++)
+            {
+                numbers[i] = dict[words[i]];
+            }
+            return numbers;
         }
     }
 }
