@@ -36,5 +36,16 @@ namespace barcode
             }
             return sb.ToString();
         }
+
+        public static string StripGuardPattern(string barcode)
+        {
+            if (barcode.StartsWith("101") && barcode.EndsWith("101"))
+            {
+                return barcode.Substring(3, barcode.Length - 6);
+            } else
+            {
+                throw new FormatException("Barcode does not contain guard pattern.");
+            }
+        }
     }
 }
