@@ -21,11 +21,11 @@ namespace barcode_test
         }
 
         [Test]
-        public void ToBinaryStringNewline()
+        public void ToBinaryStringNoNewline()
         {
             string s = "▍  ▍ \n";
             string expected = "10010";
-            Assert.AreEqual(BarcodeProgram.ToBinaryString(s), expected);
+            Assert.AreEqual(expected, BarcodeProgram.ToBinaryString(s));
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace barcode_test
         {
             string s = "▍ ▍   ▍▍ ▍ ▍▍   ▍  ▍▍  ▍   ▍▍ ▍   ▍▍ ▍   ▍▍ ▍ ▍ ▍ ▍▍▍  ▍ ▍▍  ▍▍ ▍▍ ▍▍  ▍  ▍▍▍ ▍▍  ▍▍ ▍   ▍  ▍ ▍";
             string expected = "10100011010110001001100100011010001101000110101010111001011001101101100100111011001101000100101";
-            Assert.AreEqual(BarcodeProgram.ToBinaryString(s), expected);
+            Assert.AreEqual(expected, BarcodeProgram.ToBinaryString(s));
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace barcode_test
         {
             string barcode = "1010101101";
             string expected = "0101";
-            Assert.AreEqual(BarcodeProgram.StripEndGuards(barcode), expected);
+            Assert.AreEqual(expected, BarcodeProgram.StripEndGuards(barcode));
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace barcode_test
                 "000000011111110000000111111100000001111111",
                 "000000011111110000000111111100000001111111"
             };
-            Assert.AreEqual(BarcodeProgram.SplitOnCenterGuard(barcode), expected);
+            Assert.AreEqual(expected, BarcodeProgram.SplitOnCenterGuard(barcode));
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace barcode_test
                 "000000011111110000000111111100000001111101",
                 "100000011111110000000111111100000001111111"
             };
-            Assert.AreEqual(BarcodeProgram.SplitOnCenterGuard(barcode), expected);
+            Assert.AreEqual(expected, BarcodeProgram.SplitOnCenterGuard(barcode));
         }
 
         [Test]
@@ -80,7 +80,7 @@ namespace barcode_test
         {
             string barcode = "000000011111110001111";
             string[] expected = new string[] { "0000000", "1111111", "0001111" };
-            Assert.AreEqual(BarcodeProgram.SplitIntoWords(barcode), expected);
+            Assert.AreEqual(expected, BarcodeProgram.SplitIntoWords(barcode));
         }
 
         [Test]
@@ -99,8 +99,17 @@ namespace barcode_test
             string[] rightWords = new string[] { "1110010", "1000010", "1110100" };
             int[] nrs = new int[] { 0, 3, 9 };
 
-            Assert.AreEqual(BarcodeProgram.translateWords(leftWords, BarcodeProgram.LEFT_HAND), nrs);
-            Assert.AreEqual(BarcodeProgram.translateWords(rightWords, BarcodeProgram.RIGHT_HAND), nrs);
+            Assert.AreEqual(nrs, BarcodeProgram.TranslateWords(leftWords, BarcodeProgram.LEFT_HAND));
+            Assert.AreEqual(nrs, BarcodeProgram.TranslateWords(rightWords, BarcodeProgram.RIGHT_HAND));
+        }
+
+        [Test]
+        public void BinaryLineToFormattedStringSuceeds()
+        {
+            string testdata1 = "10100011010110001001100100011010001101000110101010111001011001101101100100111011001101000100101";
+            string expected = "0 51000 01251 7";
+
+            Assert.AreEqual(expected, BarcodeProgram.BinaryLineToFormattedString(testdata1));
         }
     }
 }

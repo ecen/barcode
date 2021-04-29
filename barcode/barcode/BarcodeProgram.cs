@@ -40,23 +40,28 @@ namespace barcode
             string[] lines = FileToBinaryLines(args[0]);
             foreach (string line in lines)
             {
-                string noEndGuards = StripEndGuards(line);
-                string[] both = SplitOnCenterGuard(noEndGuards);
-                string left = both[0];
-                string right = both[1];
-                string[] lefts = SplitIntoWords(left);
-                string[] rights = SplitIntoWords(right);
-                int[] leftNrs = translateWords(lefts, LEFT_HAND);
-                int[] rightNrs = translateWords(rights, RIGHT_HAND);
-
-                string numberSystem = leftNrs[0].ToString();
-                string leftPart = string.Join("", leftNrs[1..leftNrs.Length]);
-                string rightPart = string.Join("", rightNrs[1..rightNrs.Length]);
-                string moduloCheck = rightNrs[rightNrs.Length-1].ToString();
-
-                string output = $"{numberSystem} {leftPart} {rightPart} {moduloCheck}";
+                string output = BinaryLineToFormattedString(line);
                 Console.WriteLine($"{line}\n{output}");
             }
+        }
+
+        public static string BinaryLineToFormattedString(string binaryline)
+        {
+            string noEndGuards = StripEndGuards(binaryline);
+            string[] both = SplitOnCenterGuard(noEndGuards);
+            string left = both[0];
+            string right = both[1];
+            string[] lefts = SplitIntoWords(left);
+            string[] rights = SplitIntoWords(right);
+            int[] leftNrs = TranslateWords(lefts, LEFT_HAND);
+            int[] rightNrs = TranslateWords(rights, RIGHT_HAND);
+
+            string numberSystem = leftNrs[0].ToString();
+            string leftPart = string.Join("", leftNrs[1..leftNrs.Length]);
+            string rightPart = string.Join("", rightNrs[0..(rightNrs.Length-1)]);
+            string moduloCheck = rightNrs[rightNrs.Length - 1].ToString();
+
+            return $"{numberSystem} {leftPart} {rightPart} {moduloCheck}";
         }
 
         public static string[] FileToBinaryLines(string path)
@@ -126,7 +131,7 @@ namespace barcode
             return words;
         }
 
-        public static int[] translateWords(string[] words, Dictionary<string, int> dict)
+        public static int[] TranslateWords(string[] words, Dictionary<string, int> dict)
         {
             int[] numbers = new int[words.Length];
             for (int i = 0; i < words.Length; i++)
